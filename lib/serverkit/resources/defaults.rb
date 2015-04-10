@@ -30,6 +30,11 @@ module Serverkit
 
       private
 
+      # @note Override
+      def default_id
+        "#{domain} #{key}"
+      end
+
       # @return [String]
       # @example "com.apple.TextEdit"
       def escaped_domain
