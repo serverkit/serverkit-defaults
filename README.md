@@ -1,9 +1,20 @@
 # serverkit-defaults
 [Serverkit](https://github.com/r7kamura/serverkit) plug-in for [defaults(1)](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/defaults.1.html) of Mac OS X.
 
+- [Install](#install)
+- [Resource](#resource)
+  - [defaults](#defaults)
+    - [Attributes](#attributes)
+    - [Example](#example)
+
+## Install
+```rb
+gem "serverkit-defaults"
+```
+
 ## Resource
 ### defaults
-Writes value for key in domain.
+Make sure the value is set for the key in the domain.
 
 #### Attributes
 - domain - defaults domain (default: `"NSGlobalDomain"`)
