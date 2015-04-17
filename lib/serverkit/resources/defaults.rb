@@ -19,7 +19,7 @@ module Serverkit
       attribute :value, required: true, type: [Array, Fixnum, Float, Hash, String]
 
       def apply
-        run_command("defaults write #{escaped_domain} #{escaped_key} #{type_option} '#{value_in_plist}'")
+        run_command("defaults write #{escaped_domain} #{escaped_key} #{type_option} #{value_in_plist}")
       end
 
       # @note Override
