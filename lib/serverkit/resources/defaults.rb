@@ -88,7 +88,7 @@ module Serverkit
 
       # @return [String]
       def value_in_plist
-        Plist.generate(value)
+        ::Shellwords.shellescape(Plist.generate(value))
       end
 
       # @return [String]
