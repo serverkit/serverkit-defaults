@@ -9,6 +9,9 @@ module Serverkit
     class Defaults < Base
       DEFAULT_DOMAIN = "NSGlobalDomain"
 
+      # @exmaple "current"
+      attribute :host, type: String
+
       # @example "com.apple.TextEdit"
       attribute :domain, default: DEFAULT_DOMAIN, type: String
 
@@ -23,11 +26,11 @@ module Serverkit
 
       def apply
         if type_option
-          run_command("defaults write #{escaped_domain} #{escaped_key} #{type_option} " \
-                      "'#{value}'")
+          run_command("defaults #{host_option} write #{escaped_domain} #{escaped_key} " \
+                      "#{type_option} '#{value}'")
         else
-          run_command("defaults write #{escaped_domain} #{escaped_key} #{estimated_type_option} " \
-                      "#{value_in_plist}")
+          run_command("defaults #{host_option} write #{escaped_domain} #{escaped_key} " \
+                      "#{estimated_type_option} #{value_in_plist}")
         end
       end
 
@@ -98,6 +101,17 @@ module Serverkit
       # @return [String]
       def value_in_plist
         ::Shellwords.shellescape(Plist.generate(value))
+      end
+
+      # @return [String]
+      def host_option
+        case host
+        when "current"
+          "-currentHost"
+        when nil
+        else
+          "-host #{host}"
+        end
       end
 
       # @return [String]
