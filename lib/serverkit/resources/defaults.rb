@@ -9,6 +9,9 @@ module Serverkit
     class Defaults < Base
       DEFAULT_DOMAIN = "NSGlobalDomain"
 
+      # @exmaple "current"
+      attribute :host, type: String
+
       # @example "com.apple.TextEdit"
       attribute :domain, default: DEFAULT_DOMAIN, type: String
 
@@ -19,7 +22,7 @@ module Serverkit
       attribute :value, required: true, type: [Array, Fixnum, Float, Hash, String]
 
       def apply
-        run_command("defaults write #{escaped_domain} #{escaped_key} #{type_option} #{value_in_plist}")
+        run_command("defaults #{host_option} write #{escaped_domain} #{escaped_key} #{type_option} #{value_in_plist}")
       end
 
       # @note Override
@@ -92,6 +95,17 @@ module Serverkit
       end
 
       # @return [String]
+      def host_option
+        case host
+        when "current"
+          "-currentHost"
+        when nil
+        else
+          "-host #{host}"
+        end
+      end
+
+      # @return [String]
       def type_option
         case value
         when Fixnum
@@ -112,7 +126,7 @@ module Serverkit
             when Array
               "(" + object.map { |element| generate(element) }.join(", ") + ")"
             when Hash
-              "{" + object.map { |key, value| "#{generate(key)} = #{generate(value)}" }.join("; ") + "}"
+              "{" + object.map { |key, value| "#{generate(key)} = #{generate(value)}" }.join("; ") + "; }"
             when false
               generate(0)
             when true
