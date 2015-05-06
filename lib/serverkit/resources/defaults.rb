@@ -113,6 +113,8 @@ module Serverkit
               "(" + object.map { |element| generate(element) }.join(", ") + ")"
             when Hash
               "{" + object.map { |key, value| "#{generate(key)} = #{generate(value)}" }.join("; ") + "}"
+            when String
+              object
             when false
               generate(0)
             when true
